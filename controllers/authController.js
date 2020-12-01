@@ -124,7 +124,7 @@ exports.forgotPassword = async (req,res,next) => {
 
         await user.save({ validateBeforeSave:false })
 
-        const resetUrl = `${getUrl(req)}/api/v1/users/resetPassword/${resetToken}`
+        const resetUrl = `${getUrl(req)}/accounts/resetPassword/${resetToken}`
         const message = `Forgot your password? click this url ${resetUrl}`
         // send through email
        try {
@@ -159,6 +159,7 @@ exports.resetPassword = async (req,res,next) => {
         // Check hashed token
         const hashToken = crypto.createHash('sha256').update(token).digest('hex');
         const user = await User.findOne({ passwordResetToken: hashToken,passwordResetExpires: {$gt: Date.now()}})
+        if(!user) return next(new Error('User not found'))
         user.password = password;
         user.confirmPassword = confirmPassword;
         user.passwordResetToken = undefined;
@@ -176,3 +177,4 @@ exports.resetPassword = async (req,res,next) => {
         catchErr(res,err)
     }
 }
+

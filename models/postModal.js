@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
     title: {
         type: String,
-        maxlength: 50,
+        maxlength: 150,
         required: [true,'A post must have title']
     },
     photo: {

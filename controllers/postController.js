@@ -94,9 +94,12 @@ exports.createPost = async(req,res,next) => {
     try {
         const {title,description,category,author} = req.body;
         let photo = req.photoUrl;
+        console.log("hello create post")
+        console.log(req.body,photo)
         const post = await Post.create({
             title,description,photo,category,author
         })
+        console.log(post)
 
         res.status(200).json({
             status: 'success',
